@@ -118,8 +118,8 @@ module Moip::Assinaturas
       end
 
       def delete_coupon_subscription(code, opts={})
-        prepare_options(opts, { body: {}, headers: { 'Content-Type' => 'application/json' } })
-        peform_action!(:delete, "/subscriptions/#{code}/coupon")
+        prepare_options(opts, { headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:delete, "/subscriptions/#{code}/coupon", opts, true)
       end
 
       def list_invoices(subscription_code, opts={})
