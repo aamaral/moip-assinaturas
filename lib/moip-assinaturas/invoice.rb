@@ -60,6 +60,27 @@ module Moip::Assinaturas
         end
       end
 
+      def boleto(id, year, month, day, opts = {})
+        response = Moip::Assinaturas::Client.boleto_invoice(id, {year: year, month: month, day: day}, opts)
+        hash     = JSON.load response.body
+        hash     = hash.with_indifferent_access if hash
+
+        case response.code
+        when 200
+          return {
+            success:  true
+          }
+        when 400
+          return {
+            success: false,
+            message: hash['message'],
+            errors:  hash['errors']
+          }
+        else
+          raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")
+        end
+      end
+
       def notify(invoice_id, opts = {})
         response = Moip::Assinaturas::Client.notify_invoice(invoice_id, opts)
         hash     = JSON.load(response.body)
