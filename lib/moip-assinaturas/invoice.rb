@@ -68,13 +68,13 @@ module Moip::Assinaturas
         case response.code
         when 200
           return {
-            success:  true
+            success:  true,
+            invoice:  hash
           }
-        when 400
+        when 404
           return {
             success: false,
-            message: hash['message'],
-            errors:  hash['errors']
+            message: 'not found'
           }
         else
           raise(WebServerResponseError, "Ocorreu um erro no retorno do webservice")
