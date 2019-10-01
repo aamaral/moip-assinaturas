@@ -92,6 +92,11 @@ module Moip::Assinaturas
         peform_action!(:put, "/subscriptions/#{subscription_code}", opts, true)
       end
 
+      def change_payment_method(subscription_code, subscription_changes, opts={})
+        prepare_options(opts, { body: subscription_changes.to_json, headers: { 'Content-Type' => 'application/json' } })
+        peform_action!(:put, "/subscriptions/#{subscription_code}/change_payment_method", opts)
+      end
+
       def list_subscriptions(opts={})
         prepare_options(opts, { headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json' } })
         return peform_action!(:get, build_url_subscription(opts),opts)
